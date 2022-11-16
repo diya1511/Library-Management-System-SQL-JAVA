@@ -1,0 +1,548 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package Jframe;
+
+import static Jframe.DBConnection.con;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+/**
+ *
+ * @author diyaa
+ */
+public class ManageStudents extends javax.swing.JFrame {
+
+    /**
+     * Creates new form ManageBooks
+     */
+    String studentName,course,branch;
+    int studentId;
+    DefaultTableModel model;
+    public ManageStudents() {
+        initComponents();
+        setStudentDetailsToTable();
+    }
+    public void setStudentDetailsToTable(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root","Ra@09091976");
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery("select * from book_details");
+             while (rs.next()){
+                 String bookId = rs.getString("book_id");
+                 String bookName = rs.getString("book_name");
+                 String author = rs.getString("author");
+                 int quantity = rs.getInt("quantity");
+                 Object[] obj ={bookId,bookName,author,quantity};
+                 model =(DefaultTableModel) tbl_studentDetails.getModel();
+                 model.addRow(obj);
+             }
+        }catch(Exception e){
+             e.printStackTrace();
+        }
+    }
+    public boolean addStudent(){
+        boolean isadded = false;
+        studentId = Integer.parseInt(txt_studentid.getText());
+       studentName = txt_studentname.getText();
+        course = combo_Course.getSelectedItem().toString();
+          branch = combo_Branch.getSelectedItem().toString();
+           try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library_ms","root","Ra@09091976");
+             String sql = "insert into book_details values(?,?,?,?)";
+    PreparedStatement pst = con.prepareStatement(sql);
+           pst.setInt(1,bookId);
+            pst.setString(2,bookName); 
+            pst.setString(3,author);
+             pst.setInt(4, qauntity);
+            
+             int rowCount = pst.executeUpdate();
+            if(rowCount >0){
+                isadded = true;
+            }
+            else{
+                isadded= false;
+            }
+   
+        }catch(Exception e){
+             e.printStackTrace();
+        }
+           return isadded;
+    }
+    
+    //To update table
+    public boolean updateBook(){
+        boolean isUpdated = false;
+        bookId = Integer.parseInt(txt_studentid.getText());
+        bookName = txt_studentname.getText();
+         author = txt_authorname.getText();
+         qauntity = Integer.parseInt(txt_quantity.getText());
+         
+         try{
+             Connection con = DBConnection.getConnection();
+             String sql ="update book_details set book_name = ?,author= ?,quantity = ? where book_id = ?";
+          PreparedStatement pst = con.prepareStatement(sql);
+    
+            pst.setString(1,bookName); 
+            pst.setString(2,author);
+             pst.setInt(3, qauntity);
+             pst.setInt(4,bookId);
+             int rowCount = pst.executeUpdate();
+           
+            if(rowCount >0){
+                isUpdated = true;
+            }
+            else{
+                isUpdated= false;
+            }
+   
+        }catch(Exception e){
+             e.printStackTrace();
+        }
+         return isUpdated;
+    }
+    //delete book
+    public boolean deleteBook(){
+        boolean isDeleted = false;
+        bookId = Integer.parseInt(txt_studentid.getText());
+          try{
+             Connection con = DBConnection.getConnection();
+             String sql ="delete from book_details where book_id = ?";
+          PreparedStatement pst = con.prepareStatement(sql);
+    
+    
+             pst.setInt(1,bookId);
+             int rowCount = pst.executeUpdate();
+           
+            if(rowCount >0){
+                isDeleted = true;
+            }
+            else{
+                 isDeleted= false;
+            }
+   
+        }catch(Exception e){
+             e.printStackTrace();
+        }
+         return  isDeleted;
+    }
+    //clear table
+    public void clearTable(){
+         DefaultTableModel model=(DefaultTableModel) tbl_studentDetails.getModel();
+         model.setRowCount(0);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        txt_studentname = new app.bolivia.swing.JCTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        txt_studentid = new app.bolivia.swing.JCTextField();
+        rSMaterialButtonCircle2 = new rojerusan.RSMaterialButtonCircle();
+        rSMaterialButtonCircle3 = new rojerusan.RSMaterialButtonCircle();
+        rSMaterialButtonCircle4 = new rojerusan.RSMaterialButtonCircle();
+        combo_Branch = new javax.swing.JComboBox<>();
+        combo_Course = new javax.swing.JComboBox<>();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1123 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbl_studentDetails = new rojeru_san.complementos.RSTableMetro();
+        jPanel3 = new javax.swing.JPanel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(150, 0, 153));
+        jPanel1.setVerifyInputWhenFocusTarget(false);
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 51, 0));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
+        jLabel1.setText("Back");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(jLabel1)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 40));
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Collaborator_Male_26px.png"))); // NOI18N
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 390, 90, 80));
+
+        jLabel17.setFont(new java.awt.Font("Bahnschrift", 0, 17)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("Course");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, 170, 20));
+
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Unit_26px.png"))); // NOI18N
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 490, 90, 80));
+
+        jLabel19.setFont(new java.awt.Font("Bahnschrift", 0, 17)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("Branch");
+        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 500, 170, 20));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Moleskine_26px.png"))); // NOI18N
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 40, 70));
+
+        jLabel20.setFont(new java.awt.Font("Bahnschrift", 0, 17)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("Enter Student Name");
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, 170, 20));
+
+        txt_studentname.setBackground(new java.awt.Color(153, 0, 153));
+        txt_studentname.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txt_studentname.setPhColor(new java.awt.Color(255, 255, 255));
+        txt_studentname.setPlaceholder("Enter Student Name");
+        txt_studentname.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_studentnameFocusLost(evt);
+            }
+        });
+        txt_studentname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_studentnameActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txt_studentname, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, -1, -1));
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Contact_26px.png"))); // NOI18N
+        jPanel1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 90, 80));
+
+        jLabel22.setFont(new java.awt.Font("Bahnschrift", 0, 17)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setText("Enter Student ID");
+        jPanel1.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 170, 20));
+
+        txt_studentid.setBackground(new java.awt.Color(153, 0, 153));
+        txt_studentid.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txt_studentid.setPhColor(new java.awt.Color(255, 255, 255));
+        txt_studentid.setPlaceholder("Enter Student ID");
+        txt_studentid.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_studentidFocusLost(evt);
+            }
+        });
+        txt_studentid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_studentidActionPerformed(evt);
+            }
+        });
+        jPanel1.add(txt_studentid, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, -1, -1));
+
+        rSMaterialButtonCircle2.setBackground(new java.awt.Color(255, 51, 0));
+        rSMaterialButtonCircle2.setText("UPDATE");
+        rSMaterialButtonCircle2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonCircle2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSMaterialButtonCircle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 600, 130, 60));
+
+        rSMaterialButtonCircle3.setBackground(new java.awt.Color(255, 51, 0));
+        rSMaterialButtonCircle3.setText("DELETE");
+        rSMaterialButtonCircle3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonCircle3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSMaterialButtonCircle3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 600, 130, 60));
+
+        rSMaterialButtonCircle4.setBackground(new java.awt.Color(255, 51, 0));
+        rSMaterialButtonCircle4.setText("ADD");
+        rSMaterialButtonCircle4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonCircle4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSMaterialButtonCircle4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 130, 60));
+
+        combo_Branch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "IT", "CS", "Entc", "Mechanics" }));
+        combo_Branch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_BranchActionPerformed(evt);
+            }
+        });
+        jPanel1.add(combo_Branch, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 530, 200, 30));
+
+        combo_Course.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "B.Tech", "BSC", "MSC", "B.COM", "Phd" }));
+        combo_Course.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_CourseActionPerformed(evt);
+            }
+        });
+        jPanel1.add(combo_Course, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 430, 200, 30));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 830));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel5.setBackground(new java.awt.Color(150, 0, 153));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("X");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 20, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 50, 40));
+
+        jLabel1123.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 30)); // NOI18N
+        jLabel1123.setForeground(new java.awt.Color(255, 51, 0));
+        jLabel1123.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/icons8_Student_Male_100px.png"))); // NOI18N
+        jLabel1123.setText("Manage Students");
+        jPanel4.add(jLabel1123, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, -1, -1));
+
+        tbl_studentDetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student Id", "Name", "Course", "Branch"
+            }
+        ));
+        tbl_studentDetails.setAlignmentX(40.0F);
+        tbl_studentDetails.setColorBackgoundHead(new java.awt.Color(150, 0, 153));
+        tbl_studentDetails.setColorBordeFilas(new java.awt.Color(150, 0, 153));
+        tbl_studentDetails.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        tbl_studentDetails.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        tbl_studentDetails.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_studentDetailsMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbl_studentDetails);
+
+        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 510, 190));
+
+        jPanel3.setBackground(new java.awt.Color(255, 51, 0));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 230, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jPanel4.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, 230, 5));
+
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, 740, 720));
+
+        setSize(new java.awt.Dimension(1218, 719));
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        Home home = new Home();
+        home.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void txt_studentnameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_studentnameFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_studentnameFocusLost
+
+    private void txt_studentnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_studentnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_studentnameActionPerformed
+
+    private void txt_studentidFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_studentidFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_studentidFocusLost
+
+    private void txt_studentidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_studentidActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_studentidActionPerformed
+
+    private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
+  if(updateBook() == true){
+            JOptionPane.showMessageDialog(this,"Book Updated");
+            clearTable();
+            setStudentDetailsToTable();
+       }
+       else{
+           JOptionPane.showMessageDialog(this,"Book Updation failed");
+       }     
+    }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
+
+    private void rSMaterialButtonCircle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle3ActionPerformed
+        if(deleteBook() == true){
+            JOptionPane.showMessageDialog(this,"Book Deleted Successfully");
+            clearTable();
+           setStudentDetailsToTable();
+       }
+       else{
+           JOptionPane.showMessageDialog(this,"Book Deletion failed");
+       }
+    }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
+
+    private void rSMaterialButtonCircle4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle4ActionPerformed
+       if(addStudent() == true){
+            JOptionPane.showMessageDialog(this,"Book Addded");
+            clearTable();
+            setStudentDetailsToTable();
+       }
+       else{
+           JOptionPane.showMessageDialog(this,"Book Adddition failed");
+       }
+    }//GEN-LAST:event_rSMaterialButtonCircle4ActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+       System.exit(0);
+       
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void tbl_studentDetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_studentDetailsMouseClicked
+       int  rowNo = tbl_studentDetails.getSelectedRow();
+       TableModel model = tbl_studentDetails.getModel();
+       txt_studentid.setText(model.getValueAt(rowNo,0).toString());
+       txt_studentname.setText(model.getValueAt(rowNo, 1).toString());
+        txt_authorname.setText(model.getValueAt(rowNo, 2).toString());
+         txt_quantity.setText(model.getValueAt(rowNo, 3).toString());
+    }//GEN-LAST:event_tbl_studentDetailsMouseClicked
+
+    private void combo_BranchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_BranchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combo_BranchActionPerformed
+
+    private void combo_CourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_CourseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combo_CourseActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ManageStudents().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> combo_Branch;
+    private javax.swing.JComboBox<String> combo_Course;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel1123;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane2;
+    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle2;
+    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle3;
+    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle4;
+    private rojeru_san.complementos.RSTableMetro tbl_studentDetails;
+    private app.bolivia.swing.JCTextField txt_studentid;
+    private app.bolivia.swing.JCTextField txt_studentname;
+    // End of variables declaration//GEN-END:variables
+}
