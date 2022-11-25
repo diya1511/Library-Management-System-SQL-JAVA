@@ -404,13 +404,13 @@ public class ReturnBook extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_studentidFocusLost
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
-        Home home = new Home();
-        home.setVisible(true);
-        dispose();
+       
     }//GEN-LAST:event_jPanel11MouseClicked
 
     private void jLabel28MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel28MouseClicked
-        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jLabel28MouseClicked
 
     private void txt_bookidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_bookidActionPerformed

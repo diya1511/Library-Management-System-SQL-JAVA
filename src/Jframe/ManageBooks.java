@@ -185,6 +185,11 @@ public class ManageBooks extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 51, 0));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -370,7 +375,7 @@ public class ManageBooks extends javax.swing.JFrame {
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 50, 40));
+        jPanel4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 0, 50, 40));
 
         jLabel1123.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 30)); // NOI18N
         jLabel1123.setForeground(new java.awt.Color(255, 51, 0));
@@ -397,8 +402,12 @@ public class ManageBooks extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tbl_bookDetails);
+        if (tbl_bookDetails.getColumnModel().getColumnCount() > 0) {
+            tbl_bookDetails.getColumnModel().getColumn(1).setMinWidth(120);
+            tbl_bookDetails.getColumnModel().getColumn(2).setMinWidth(150);
+        }
 
-        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 510, 190));
+        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 510, 190));
 
         jPanel3.setBackground(new java.awt.Color(255, 51, 0));
 
@@ -415,7 +424,7 @@ public class ManageBooks extends javax.swing.JFrame {
 
         jPanel4.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, 200, 5));
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 740, 720));
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 0, 750, 720));
 
         setSize(new java.awt.Dimension(1218, 719));
         setLocationRelativeTo(null);
@@ -505,6 +514,10 @@ public class ManageBooks extends javax.swing.JFrame {
         txt_authorname.setText(model.getValueAt(rowNo, 2).toString());
          txt_quantity.setText(model.getValueAt(rowNo, 3).toString());
     }//GEN-LAST:event_tbl_bookDetailsMouseClicked
+
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel2MouseClicked
 
     /**
      * @param args the command line arguments
